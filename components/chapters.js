@@ -7,6 +7,7 @@ import React, {
   View
 } from 'react-native';
 
+const styles = require ('../styles')
 
 var API_URL = 'http://automuseum.herokuapp.com/api/stories/';
 var URL_END = '/chapters.json';

@@ -6,7 +6,7 @@ module.exports = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(253,103,105)',
+    backgroundColor: 'rgb(249,202,181)',
 
   },
   welcome: {
@@ -36,17 +36,21 @@ module.exports = StyleSheet.create({
   //   backgroundColor: '#000'
   // },
   navbar: {
-    color: '#000',
-    borderBottomColor: '#dddddd',
-    borderBottomWidth: 1
+    color: '#444',
+    borderBottomColor: 'rgb(170,56,49)',
+    borderBottomWidth: 4,
+    backgroundColor: 'rgb(231,77,67)',
   },
   listView: {
-    // paddingTop: 20,
+    paddingTop: 65,
+    backgroundColor: 'rgb(249,202,181)',
   },
   listViewCell: {
     paddingTop: 20,
     paddingBottom: 20,
-    borderBottomColor: '#dddddd',
-    borderBottomWidth: 1
+    borderBottomColor: 'rgb(236,192,173)',
+    borderBottomWidth: 1,
+    borderTopColor: 'rgb(236,192,173)',
+    borderTopWidth: 1
   },
 });

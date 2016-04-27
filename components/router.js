@@ -25,6 +25,7 @@ class Router extends Component {
       <Navigator
         styles={{flex:1}}
         initialRoute={{ name: 'Stories' }}
+        ref ={(nav) => {this.nav = nav}}
         renderScene = { this.renderScene.bind(this) }
         configureScene={(route) => {
           if (route.sceneConfig)
@@ -55,14 +56,16 @@ class Router extends Component {
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigation, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => navigator.parentNavigator.pop()}>
-        <Text style={{color: 'white', margin: 10,}}>
-          Back
-        </Text>
+    return ((route.name == 'Chapters')?(
+      <TouchableOpacity
+          onPress={() => route.pop()}>
+          <View style={{paddingLeft: 10,}}>
+            <Text>
+              Back
+            </Text>
+        </View>
       </TouchableOpacity>
-    )
+    ): null)
   },
   RightButton(route, navigation, index, navState) {
     return null
@@ -70,7 +73,7 @@ var NavigationBarRouteMapper = {
   Title(route, navigation, index, navState) {
     return (
       <Text>
-        {route.title}
+        {route.name}
       </Text>
     )
   },

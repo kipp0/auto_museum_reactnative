@@ -24,6 +24,9 @@ class Stories extends Component {
       }),
       loaded: false,
     };
+
+    this.renderStories = this.renderStories.bind(this)
+    this._navigate = this._navigate.bind(this)
   }
   componentWillMount() {
     var navigator = this.props.navigator
@@ -71,7 +74,7 @@ class Stories extends Component {
   }
   _navigate(story) {
     this.props.navigator.push({
-      name: 'chapters',
+      name: 'Chapters',
       props: {
         story_id: story.id
       }
