@@ -8,44 +8,49 @@ import React, {
   Component,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
 
-class AutoMuseum extends Component {
+
+const styles = require ('./styles')
+const Stories = require ('./components/stories')
+const Router = require ('./components/router')
+
+var welcome = 'Welcome to the Auto Museum!'
+var instruction = 'Tap To Start'
+
+class auto_museum_android extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      component: 'welcome',
+    };
+  }
+
+  setComponent(c) {
+    this.state.component = c
+    this.forceUpdate()
+  }
   render() {
+    if ( this.state.component == 'welcome' ) {
+      return this.renderWelcome()
+    }
+
+    return <Router />
+  }
+
+  renderWelcome() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <TouchableOpacity style={styles.container} onPress={() => this.setComponent('stories') }>
+        <View style={styles.container}>
+          <Text style={styles.welcome}>{welcome}</Text>
+          <Text style={styles.instructions}>{instruction}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
-AppRegistry.registerComponent('AutoMuseum', () => AutoMuseum);
+AppRegistry.registerComponent('auto_museum_android', () => auto_museum_android);
