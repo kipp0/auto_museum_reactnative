@@ -22,6 +22,8 @@ class Chapters extends Component {
       }),
       loaded: false,
     };
+
+    REQUEST_URL = API_URL + this.props.story_id + URL_END
   }
 
   componentDidMount() {

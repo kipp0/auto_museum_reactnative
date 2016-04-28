@@ -28,13 +28,6 @@ module.exports = StyleSheet.create({
   year: {
     textAlign: 'center',
   },
-  // navBar: {
-  //   height: 60,
-  //   flexDirection: 'row',
-  //   justifyContent: 'flex-start'
-  //   alignItems: 'flex-start'
-  //   backgroundColor: '#000'
-  // },
   navbar: {
     color: '#444',
     borderBottomColor: 'rgb(170,56,49)',

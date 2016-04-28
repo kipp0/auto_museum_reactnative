@@ -23,6 +23,7 @@ class Stories extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
+      title: this.title,
     };
 
     this.renderStories = this.renderStories.bind(this)
@@ -75,6 +76,7 @@ class Stories extends Component {
   _navigate(story) {
     this.props.navigator.push({
       name: 'Chapters',
+      index: 1,
       props: {
         story_id: story.id
       }

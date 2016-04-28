@@ -24,8 +24,9 @@ class Router extends Component {
     return (
       <Navigator
         styles={{flex:1}}
-        initialRoute={{ name: 'Stories' }}
-        ref ={(nav) => {this.nav = nav}}
+        initialRoute={{ name: 'Stories', index: 0}}
+        // ref={(nav) => {this.nav = nav}}
+        navigator= {this.props.navigator}
         renderScene = { this.renderScene.bind(this) }
         configureScene={(route) => {
           if (route.sceneConfig)
@@ -52,13 +53,23 @@ class Router extends Component {
     }
   }
 
+  _navigateBack(index) {
+    this.props.navigator.pop({
+      name: 'Stories',
+      index: index - 1,
+      props: {
+        story_id: story.id
+      }
+    })
+  }
+
 }
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigation, index, navState) {
-    return ((route.name == 'Chapters')?(
+  LeftButton(route, navigator, index, navState) {
+    return ((route.index > 0)?(
       <TouchableOpacity
-          onPress={() => route.pop()}>
+          onPress={() => navigator.pop()}>
           <View style={{paddingLeft: 10,}}>
             <Text>
               Back
@@ -67,13 +78,22 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     ): null)
   },
-  RightButton(route, navigation, index, navState) {
-    return null
+  RightButton(route, navigator, index, navState) {
+    return ((route.index > 0)?(
+      <TouchableOpacity
+          onPress={() => navigator.push()}>
+          <View style={{paddingLeft: 10,}}>
+            <Text>
+              Next
+            </Text>
+        </View>
+      </TouchableOpacity>
+    ): null)
   },
-  Title(route, navigation, index, navState) {
+  Title(route, navigator, index, navState) {
     return (
       <Text>
-        {route.name}
+        {index}
       </Text>
     )
   },
