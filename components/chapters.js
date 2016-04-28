@@ -2,6 +2,7 @@ import React, {
   AppRegistry,
   Component,
   ListView,
+  WebView,
   StyleSheet,
   Text,
   View
@@ -34,10 +35,22 @@ class Chapters extends Component {
     fetch(REQUEST_URL)
       .then((response) => response.json())
       .then((responseData) => {
+
+        console.log(responseData)
+
+        var res = []
+        var arrayLength = responseData.length
+
+        for (var i = 0; i < arrayLength; i++) {
+          res.push(responseData[i])
+        }
+
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),
           loaded: true,
+          response: res
         });
+
       })
       .done();
   }
@@ -46,13 +59,15 @@ class Chapters extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
-
+    console.log(this.state.response[0].pdf.url)
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderChapters}
-        style={styles.listView}
-      />
+      // <ListView
+      //   dataSource={this.state.dataSource}
+      //   renderRow={this.renderChapters}
+      //   style={styles.listView}
+      // />
+
+        <WebView source={{uri: 'http://automuseum.herokuapp.com'+ this.state.response[0].pdf.url}}/>
     );
   }
 
