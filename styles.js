@@ -29,7 +29,7 @@ module.exports = StyleSheet.create({
     textAlign: 'center',
   },
   navbar: {
-    color: '#444',
+    color: '#fff',
     borderBottomColor: 'rgb(170,56,49)',
     borderBottomWidth: 4,
     backgroundColor: 'rgb(231,77,67)',
@@ -45,5 +45,8 @@ module.exports = StyleSheet.create({
     borderBottomWidth: 1,
     borderTopColor: 'rgb(236,192,173)',
     borderTopWidth: 1
+  },
+  webView: {
+    paddingTop: 65,
   },
 });

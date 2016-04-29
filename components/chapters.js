@@ -18,13 +18,18 @@ class Chapters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
+      url: '',
       loaded: false,
+      story_id: this.props.story_id,
+      index: this.props.index + 1
     };
-
+    var navigator = this.props.navigator
     REQUEST_URL = API_URL + this.props.story_id + URL_END
+
+    console.log("index:", this.state.index);
+    console.log("story_id:", this.state.story_id);
+    console.log("navigator:", this.props.navigator);
+
   }
 
   componentDidMount() {
@@ -36,19 +41,13 @@ class Chapters extends Component {
       .then((response) => response.json())
       .then((responseData) => {
 
-        console.log(responseData)
-
-        var res = []
-        var arrayLength = responseData.length
-
-        for (var i = 0; i < arrayLength; i++) {
-          res.push(responseData[i])
-        }
-
+        console.log(responseData);
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData),
+          url: 'http://automuseum.herokuapp.com'+responseData[0].pdf.url,
           loaded: true,
-          response: res
+          response: responseData
+          index: this.state.index + 1
+          story_id: this.state.story_id
         });
 
       })
@@ -59,15 +58,15 @@ class Chapters extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
-    console.log(this.state.response[0].pdf.url)
+    console.log('http://automuseum.herokuapp.com'+
+                    this.state.response[0].pdf.url);
     return (
-      // <ListView
-      //   dataSource={this.state.dataSource}
-      //   renderRow={this.renderChapters}
-      //   style={styles.listView}
-      // />
 
-        <WebView source={{uri: 'http://automuseum.herokuapp.com'+ this.state.response[0].pdf.url}}/>
+        <WebView
+                styles={styles.webView}
+                source={{uri: this.state.url}}
+        />
+
     );
   }
 

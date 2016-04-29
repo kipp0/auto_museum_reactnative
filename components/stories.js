@@ -6,7 +6,8 @@ import React, {
   Navigator,
   StyleSheet,
   Text,
-  View
+  View,
+  PropTypes,
 } from 'react-native';
 
 const styles = require ('../styles')
@@ -23,15 +24,15 @@ class Stories extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
-      title: this.title,
+      story_id: this.props.story_id,
+      index: 0
     };
-
+    var navigator = this.props.navigator
     this.renderStories = this.renderStories.bind(this)
     this._navigate = this._navigate.bind(this)
+    console.log("navigator:", this.props.navigator);
   }
-  componentWillMount() {
-    var navigator = this.props.navigator
-  }
+
   componentDidMount() {
     this.fetchData()
   }
@@ -76,11 +77,16 @@ class Stories extends Component {
   _navigate(story) {
     this.props.navigator.push({
       name: 'Chapters',
-      index: 1,
       props: {
-        story_id: story.id
+        story_id: story.id,
+        index: this.state.index,
+        title: this.props.title
       }
     })
+    this.setState({ index: 0 })
+  }
+  onStoryPress(story) {
+    this.story = story
   }
   renderStories(story) {
     return (
@@ -93,6 +99,13 @@ class Stories extends Component {
       </TouchableOpacity>
     );
   }
+}
+
+
+Stories.propTypes = {
+
+  navigator: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 

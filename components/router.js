@@ -20,12 +20,22 @@ const Chapters = require ('./chapters')
 
 class Router extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: this.props.index,
+      story_id: this.props.story_id,
+    };
+
+  }
+
   render() {
     return (
       <Navigator
         styles={{flex:1}}
-        initialRoute={{ name: 'Stories', index: 0}}
-        // ref={(nav) => {this.nav = nav}}
+        initialRoute={{ name: 'Stories', index: this.state.index,
+                        story_id: this.state.story_id
+                      }}
         navigator= {this.props.navigator}
         renderScene = { this.renderScene.bind(this) }
         configureScene={(route) => {
@@ -47,16 +57,23 @@ class Router extends Component {
   renderScene(route, nav) {
     switch (route.name) {
       case 'Chapters':
-        return (<Chapters navigator={nav} title="Chapters List" {...route.props} />)
+        return (<Chapters navigator={nav}
+                          title="Chapters List"
+                          {...route.props}
+                />
+        )
       default:
-        return (<Stories navigator={nav} title="Stories List" {...route.props} />)
+        return (<Stories
+                  navigator={nav}
+                  title="Stories List"
+                  {...route.props}
+                />
+        )
     }
   }
-
-  _navigateBack(index) {
-    this.props.navigator.pop({
-      name: 'Stories',
-      index: index - 1,
+  _navigateForward(index) {
+    navigator.push({
+      name: 'Chapters',
       props: {
         story_id: story.id
       }
@@ -66,8 +83,8 @@ class Router extends Component {
 }
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
-    return ((route.index > 0)?(
+  LeftButton(route, navigator, index, navState, story_id) {
+    return ((index > 0)?(
       <TouchableOpacity
           onPress={() => navigator.pop()}>
           <View style={{paddingLeft: 10,}}>
@@ -78,11 +95,17 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     ): null)
   },
-  RightButton(route, navigator, index, navState) {
-    return ((route.index > 0)?(
+  RightButton(route, navigator, index, navState, story_id) {
+    return ((index > 0)?(
       <TouchableOpacity
-          onPress={() => navigator.push()}>
-          <View style={{paddingLeft: 10,}}>
+          onPress={ () => {
+            navigator.push({
+              name: 'Chapters',
+              props: this.state
+            })
+
+          }}>
+          <View style={{paddingRight: 10,}}>
             <Text>
               Next
             </Text>
@@ -90,10 +113,10 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     ): null)
   },
-  Title(route, navigator, index, navState) {
+  Title(route, navigator, index, navState, story_id) {
     return (
       <Text>
-        {index}
+        {route.index}
       </Text>
     )
   },
