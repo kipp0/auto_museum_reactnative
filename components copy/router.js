@@ -58,9 +58,8 @@ class Router extends Component {
     switch (route.name) {
       case 'Chapters':
         return (<Chapters navigator={nav}
-                          {...route.props}
                           title="Chapters List"
-
+                          {...route.props}
                 />
         )
       default:
@@ -100,14 +99,9 @@ var NavigationBarRouteMapper = {
     return ((index > 0)?(
       <TouchableOpacity
           onPress={ () => {
-            console.log("RightButtonRouter: ", this.state);
-
             navigator.push({
               name: 'Chapters',
-              props: {
-                index: navigator.index,
-                story_id: navigator.story_id
-              }
+              props: this.state
             })
 
           }}>

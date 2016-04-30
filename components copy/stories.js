@@ -58,13 +58,11 @@ class Stories extends Component {
   }
   renderScene() {
     return (
-
-
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderStories}
-          style={styles.listView}
-        />
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderStories}
+        style={styles.listView}
+      />
     )
   }
   renderLoadingView() {

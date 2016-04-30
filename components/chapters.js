@@ -4,6 +4,8 @@ import React, {
   ListView,
   WebView,
   StyleSheet,
+  Navigator,
+  TouchableOpacity,
   Text,
   View
 } from 'react-native';
@@ -21,14 +23,15 @@ class Chapters extends Component {
       url: '',
       loaded: false,
       story_id: this.props.story_id,
-      index: this.props.index + 1
+      index: this.props.index
     };
     var navigator = this.props.navigator
     REQUEST_URL = API_URL + this.props.story_id + URL_END
 
-    console.log("index:", this.state.index);
-    console.log("story_id:", this.state.story_id);
-    console.log("navigator:", this.props.navigator);
+    console.log("index:", this.props.index);
+    console.log("story_id:", this.props.story_id);
+    console.log("story_id:", this.props);
+    // console.log("navigator:", this.props.navigator);
 
   }
 
@@ -37,19 +40,24 @@ class Chapters extends Component {
   }
 
   fetchData() {
+    console.log(REQUEST_URL);
     fetch(REQUEST_URL)
       .then((response) => response.json())
       .then((responseData) => {
 
         console.log(responseData);
-        this.setState({
-          url: 'http://automuseum.herokuapp.com'+responseData[0].pdf.url,
-          loaded: true,
-          response: responseData
-          index: this.state.index + 1
-          story_id: this.state.story_id
-        });
+        var nextIndex = this.state.index
 
+
+        this.setState({
+          url: 'http://automuseum.herokuapp.com'+responseData[nextIndex].pdf.url,
+          loaded: true,
+          index: nextIndex + 1,
+          story_id: this.state.story_id,
+        });
+        this.props.navigator.story_id = this.state.story_id
+        this.props.navigator.index = this.state.index
+        // this.props.navigator.count = this.state.count
       })
       .done();
   }
@@ -58,19 +66,18 @@ class Chapters extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
-    console.log('http://automuseum.herokuapp.com'+
-                    this.state.response[0].pdf.url);
+    console.log(this.state.index);
     return (
 
-        <WebView
-                styles={styles.webView}
-                source={{uri: this.state.url}}
-        />
-
+      <WebView
+              styles={styles.webView}
+              source={{uri: this.state.url}}
+      />
     );
   }
 
   renderLoadingView() {
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
@@ -79,18 +86,21 @@ class Chapters extends Component {
       </View>
     );
   }
-
-  renderChapters(chapter) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.rightContainer}>
-          <Text style={styles.title}>{chapter.title}</Text>
-          <Text style={styles.description}>{chapter.position}</Text>
-        </View>
-      </View>
-    );
-  }
 }
+
+
+
+
+
+
+
+
+
+// Chapters.propTypes = {
+//
+//   navigator: PropTypes.object.isRequired,
+//   title: PropTypes.string.isRequired,
+// }
 
 
 module.exports = Chapters
